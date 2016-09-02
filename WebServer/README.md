@@ -3,6 +3,7 @@ Typescript로 일부 작성되어 visual studio + node.js extention을 활용하
 
 ## installation
 ```shell
+git clone https://github.com/seong889/node-fileserver.git
 npm install
 npm "install" "bcrypt@https://github.com/ksmyth/node.bcrypt.js/tarball/v0.8.5" -s
 ```
