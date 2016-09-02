@@ -1,0 +1,13 @@
+﻿extends layout
+
+block content
+	.row
+		.col-lg-12
+			h1.page-header
+				| Input Password
+	form.form-horizontal(action="/login" name="login" method="post")
+		.form-group
+				.col-sm-4.col-xs-8
+					input#inputPassword.form-control(type='password' placeholder='Password' name='password')
+				.col-sm-4.col-xs-2
+					button.btn.btn-danger(type='submit') Sign in

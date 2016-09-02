@@ -1,0 +1,95 @@
+﻿extends layout
+
+block content
+    .row
+        .col-lg-12.visible-lg.visible-md
+            h1.page-header.file-header-margin
+                | File Lists
+                small
+                    |  #{locals.target_path}
+    ol.breadcrumb.file-crumb-margin
+        li
+            a(href='/dirs')
+                i.glyphicon.glyphicon-home
+                |  root
+        each val in paths
+            li
+                a(href=val.path)=val.name
+    table#file-table.table
+        thead
+            tr
+                th#file-head-name Name
+                th#file-head-share 
+                th#file-head-size Size
+                th#file-head-time.visible-lg Modified
+            if locals.parent_path
+                +list(locals.parent_path, true)
+            each val in files
+                +list(val)
+    #modal.modal.fade
+        .modal-dialog
+            .modal-content
+                // header
+                .modal-header
+                    // 닫기(x) 버튼
+                    button.close(type='button', data-dismiss='modal') ×
+                    // header title
+                    h4.modal-title Header
+                // body
+                .modal-body
+                    | Body
+                // Footer
+                .modal-footer
+                    a#modal-down.btn.btn-danger(type='button') 다운
+                    button.btn.btn-default(type='button', data-dismiss='modal') 닫기	
+mixin file_name(file)
+    if parent
+        i.glyphicon.glyphicon-arrow-left
+    else if file.type == 'dir'
+        i.glyphicon.glyphicon-folder-open
+    else if file.type == 'image'
+        i.glyphicon.glyphicon-picture
+    else if file.type == 'video'
+        i.glyphicon.glyphicon-film
+    else if file.type == 'audio'
+        i.glyphicon.glyphicon-music
+    else if file.type == 'text'
+        i.glyphicon.glyphicon-text-background
+    else if file.type == 'application'
+        if file.mime == 'application/xml'
+            i.glyphicon.glyphicon-console
+        else if file.mime == 'application/pdf'
+            i.glyphicon.glyphicon-book
+        else 
+            i.glyphicon.glyphicon-file
+    else
+        i.glyphicon.glyphicon-file
+    |  #{file.name}
+
+mixin list(file, parent)
+    tr(onclick='#{file.type}_click("#{file.path}", "#{file.name}", "#{file.mime}")')
+        td.file-name
+            +file_name(file)
+        td.file-share
+            if !file.dir
+                i.glyphicon.glyphicon-link
+        td.file-size #{file.size}
+        td.file-time.hidden-xs.visible-lg #{file.date}
+
+block side
+    li.active.dirs
+        a(href='/dirs')
+           i.glyphicon.glyphicon-home
+           |  Root
+    if locals.parent_path
+        li.dirs
+            a(href='/dirs' + locals.parent_path.path)
+                i.glyphicon.glyphicon-arrow-left
+                |  #{locals.parent_path.name}
+    each val in files
+        if val.dir
+            li
+                a(href='/dirs' + val.path)
+                    i.glyphicon.glyphicon-folder-open
+                    |  #{val.name}
+                
