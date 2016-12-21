@@ -40,6 +40,12 @@ app.use(function (req, res, next) {
     });
     res.end();
 })
+app.get('/', function(req, res, next) {
+  res.writeHead(302, {
+      'Location': '/dirs'
+  });
+  res.end();
+})
 app.use('/dirs', dirs);
 app.use('/down', downs);
 
